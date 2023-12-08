@@ -85,7 +85,7 @@ class MLModelSelector:
             selected_algorithm = "SVM"
         elif self.problem_type == "Prediction(count type)":
             selected_algorithm = "generalized-lm"
-        elif self.problem_type == "Prediction(true/fules)":
+        elif self.problem_type == "Prediction(true/fales)":
             selected_algorithm = "logistic_rm"
         elif self.problem_type == "Prediction(multi-outcome)":
             selected_algorithm = "decision_tree"
@@ -114,6 +114,7 @@ polynomial_interaction = PolynomialFeatures(degree=2, interaction_only=True, inc
 interaction_only = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
 
 # FEATURE ENGINEERING METHODS:
+
 def variance_threshold_selector(data, threshold=0.05):
     if sparse.issparse(data):
         data = data.toarray()  
@@ -176,19 +177,17 @@ def independent_component_analysis(data, n_components=2):
 def non_negative_matrix_factorization(data, n_components=2):
 
     # Check for negative values
-    if np.any(data < 0):
-        print("Negative values found. Shifting data to be non-negative.")
+    has_negative = np.any(data < 0)
+    if has_negative:
         data -= np.min(data)
 
     try:
-        model = NMF(n_components=n_components)
+        model = NMF(n_components=n_components)  
         features = model.fit_transform(data)
     except ValueError as e:
-        print("NMF failed:", e)
         features = None
-    
-    if features is None:
-        print("Using original data as NMF failed.")
+        
+    if features is None:    
         features = data
 
     return features
@@ -381,7 +380,7 @@ class RunModel:
         self.selected_algorithm = selected_algorithm
         self.model = None
 
-    def algorithm_processor(self):
+    def algorithm_processor(self, data):
         selected_algorithm = self.selected_algorithm
 
         if selected_algorithm == "linear_rm":
@@ -475,7 +474,7 @@ ALGORITHM_METHODS = {
   'StandardScaler': StandardScaler(),
   'MinMaxScaler': MinMaxScaler(),
   'LogTransformation': FunctionTransformer(np.log1p),
-  'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False, interaction_only=True),
+  #'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False, interaction_only=True),
   'VarianceThresholdSelector': VarianceThreshold(),
   #'ANOVA_F_Test_Selector': SelectKBest(score_func=f_classif),
   'LassoRegularizationSelector': Lasso(),
@@ -567,4 +566,88 @@ ALGORITHM_METHODS = {
   'PolynomialFeature-Interaction': polynomial_interaction,
   #'Interaction-Only': interaction_only,
   #'SimpleImputer': SimpleImputer
-}}
+},
+'KNN': {
+  'variance_threshold_selector': VarianceThreshold(),
+  'principal_component_analysis': PCA(),
+  'kernel_pca': kernel_pca,
+  'independent_component_analysis': independent_component_analysis,
+  'non_negative_matrix_factorization': non_negative_matrix_factorization,
+  'singular_value_decomposition': singular_value_decomposition,
+  'feature_agglomeration': FeatureAgglomeration(),
+  'standard_scaling': StandardScaler,
+  #'OneHotEncoding': OneHotEncoder(),
+  #'DummyEncoding': dummy_encoding,  # This requires a dataframe and specific columns as inputs
+  'Binning': KBinsDiscretizer(n_bins=5, encode='ordinal', strategy='uniform'),  # Example parameters
+  'LogTransformation': log_transformation,
+  #'PolynomialFeature-Interaction': PolynomialFeatures(degree=2, include_bias=False),
+  #'Interaction_Only': PolynomialFeatures(degree=2, interaction_only=True, include_bias=False),
+  'SimpleImputer': SimpleImputer(),
+  'feature_scaling': MinMaxScaler()
+}
+,
+'K-means': {
+  'variance_threshold_selector': VarianceThreshold(),
+  'principal_component_analysis': PCA(),
+  'kernel_pca': kernel_pca,
+  'independent_component_analysis': independent_component_analysis,
+  'non_negative_matrix_factorization': non_negative_matrix_factorization,
+  'tsne_embedding': tsne_embedding,
+  'singular_value_decomposition': singular_value_decomposition,
+  'feature_agglomeration': FeatureAgglomeration(),
+  'StandardScaler': StandardScaler,
+  'MinMaxScaler': MinMaxScaler(),
+  'SimpleImputer': SimpleImputer(),
+},
+'RNN': {
+  'recursive_feature_elimination': RFE(estimator=SVR(kernel="linear"), n_features_to_select=1, step=1),
+  'principal_component_analysis': PCA(),
+  'kernel_pca': kernel_pca,
+  'independent_component_analysis': independent_component_analysis,
+  'non_negative_matrix_factorization': non_negative_matrix_factorization,
+  'singular_value_decomposition': singular_value_decomposition,
+  'feature_agglomeration': FeatureAgglomeration(),
+  'StandardScaler': StandardScaler,
+  'MinMaxScaler': MinMaxScaler(),
+  'SimpleImputer': SimpleImputer(),
+  'tfidf_vectorization': tfidf_vectorization,
+  'count_vectorization': CountVectorizer(),
+  'word2vec_embedding': word2vec_embedding,
+  'fasttext_embedding': fasttext_embedding,
+  'n_grams': CountVectorizer(ngram_range=(1, 2))
+},
+'CNN': {
+  'recursive_feature_elimination': RFE(estimator=SVR(kernel="linear"), n_features_to_select=1, step=1),
+  'principal_component_analysis': PCA(),
+  'kernel_pca': kernel_pca,
+  'independent_component_analysis': independent_component_analysis,
+  'non_negative_matrix_factorization': non_negative_matrix_factorization,
+  'singular_value_decomposition': singular_value_decomposition,
+  'feature_agglomeration': FeatureAgglomeration(),
+  'standard_scaling': StandardScaler(),
+  'MinMaxScaler': MinMaxScaler(),
+  'SimpleImputer': SimpleImputer(),
+  'normalization': normalization,
+  'image_augmentation': image_augmentation,
+  'histogram_equalization': histogram_equalization
+},
+'LDA': {
+  'recursive_feature_elimination': RFE(estimator=SVR(kernel="linear"), n_features_to_select=1, step=1),
+  'principal_component_analysis': PCA(),
+  'kernel_pca': kernel_pca,
+  'independent_component_analysis': independent_component_analysis,
+  'non_negative_matrix_factorization': non_negative_matrix_factorization,
+  'singular_value_decomposition': singular_value_decomposition,
+  'feature_agglomeration': FeatureAgglomeration(),
+  'standard_scaling': StandardScaler,
+  'MinMaxScaler': MinMaxScaler,
+  'SimpleImputer': SimpleImputer,
+  'tfidf_vectorization': tfidf_vectorization,
+  'count_vectorization': CountVectorizer(),
+  'word2vec_embedding': word2vec_embedding,
+  'fasttext_embedding': fasttext_embedding,
+  'n_grams': CountVectorizer(),
+}
+
+
+}
