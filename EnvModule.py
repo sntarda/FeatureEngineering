@@ -211,7 +211,7 @@ def standard_scaling(data):
     return scaler.fit_transform(data)
 
 def min_max_scaling(data):
-    scaler = Scaler()
+    scaler = MinMaxScaler()
     return scaler.fit_transform(data)
 
 def one_hot_encoding(data):
