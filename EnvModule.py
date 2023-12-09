@@ -211,7 +211,7 @@ def standard_scaling(data):
     return scaler.fit_transform(data)
 
 def min_max_scaling(data):
-    scaler = MinMaxScaler()
+    scaler = Scaler()
     return scaler.fit_transform(data)
 
 def one_hot_encoding(data):
@@ -345,7 +345,7 @@ METHODS_ACTIONS = {"variance_threshold_selector":variance_threshold_selector,
                     "singular_value_decomposition":singular_value_decomposition,
                     "feature_agglomeration":feature_agglomeration,
                     "StandardScaler":standard_scaling,
-                    "MinMaxScaler":MinMaxScaler,
+                    "MinMaxScaler":min_max_scaling,
                     "OneHotEncoding":one_hot_encoding,
                     "Binning":binning,
                     "LogTransformation":log_transformation,
@@ -464,7 +464,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': TruncatedSVD(),
   'feature_agglomeration': FeatureAgglomeration(),
   'StandardScaler': StandardScaler(),
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'LogTransformation': FunctionTransformer(np.log1p),
   'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False),
   'Interaction-Only': PolynomialFeatures(interaction_only=True, include_bias=False),
@@ -472,7 +472,7 @@ ALGORITHM_METHODS = {
 },
 'SVM': {
   'StandardScaler': StandardScaler(),
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'LogTransformation': FunctionTransformer(np.log1p),
   #'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False, interaction_only=True),
   'VarianceThresholdSelector': VarianceThreshold(),
@@ -487,7 +487,7 @@ ALGORITHM_METHODS = {
 },
 'RFM': {
   'StandardScaler': StandardScaler(), 
-  'MinMaxScaler': MinMaxScaler(),  
+  'MinMaxScaler': min_max_scaling,  
   'LogTransformation': FunctionTransformer(np.log1p), 
   'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False, interaction_only=True),
   'VarianceThresholdSelector': VarianceThreshold(), 
@@ -510,7 +510,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': TruncatedSVD(),
   'feature_agglomeration': FeatureAgglomeration(),
   'StandardScaler': StandardScaler(),
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'LogTransformation': FunctionTransformer(np.log1p),
   'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False),
   'Interaction-Only': PolynomialFeatures(interaction_only=True, include_bias=False),
@@ -527,7 +527,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': TruncatedSVD(),
   'feature_agglomeration': FeatureAgglomeration(),
   'StandardScaler': StandardScaler(),
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'LogTransformation': FunctionTransformer(np.log1p),
   'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False),
   'Interaction-Only': PolynomialFeatures(interaction_only=True, include_bias=False),
@@ -544,7 +544,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': TruncatedSVD(),
   'feature_agglomeration': FeatureAgglomeration(),
   'StandardScaler': StandardScaler(),
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'LogTransformation': FunctionTransformer(np.log1p),
   'PolynomialFeature-Interaction': PolynomialFeatures(include_bias=False),
   'Interaction-Only': PolynomialFeatures(interaction_only=True, include_bias=False),
@@ -583,7 +583,7 @@ ALGORITHM_METHODS = {
   #'PolynomialFeature-Interaction': PolynomialFeatures(degree=2, include_bias=False),
   #'Interaction_Only': PolynomialFeatures(degree=2, interaction_only=True, include_bias=False),
   'SimpleImputer': SimpleImputer(),
-  'feature_scaling': MinMaxScaler()
+  'feature_scaling': min_max_scaling
 }
 ,
 'K-means': {
@@ -596,7 +596,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': singular_value_decomposition,
   'feature_agglomeration': FeatureAgglomeration(),
   'StandardScaler': StandardScaler,
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'SimpleImputer': SimpleImputer(),
 },
 'RNN': {
@@ -608,7 +608,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': singular_value_decomposition,
   'feature_agglomeration': FeatureAgglomeration(),
   'StandardScaler': StandardScaler,
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'SimpleImputer': SimpleImputer(),
   'tfidf_vectorization': tfidf_vectorization,
   'count_vectorization': CountVectorizer(),
@@ -625,7 +625,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': singular_value_decomposition,
   'feature_agglomeration': FeatureAgglomeration(),
   'standard_scaling': StandardScaler(),
-  'MinMaxScaler': MinMaxScaler(),
+  'MinMaxScaler': min_max_scaling,
   'SimpleImputer': SimpleImputer(),
   'normalization': normalization,
   'image_augmentation': image_augmentation,
@@ -640,7 +640,7 @@ ALGORITHM_METHODS = {
   'singular_value_decomposition': singular_value_decomposition,
   'feature_agglomeration': FeatureAgglomeration(),
   'standard_scaling': StandardScaler,
-  'MinMaxScaler': MinMaxScaler,
+  'MinMaxScaler': min_max_scaling,
   'SimpleImputer': SimpleImputer,
   'tfidf_vectorization': tfidf_vectorization,
   'count_vectorization': CountVectorizer(),
